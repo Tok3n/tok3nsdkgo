@@ -1,7 +1,7 @@
 package tok3n
 
 import (
-	"http"
+	"net/http"
 )
 
 var client http.Client
