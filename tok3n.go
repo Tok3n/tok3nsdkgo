@@ -56,7 +56,7 @@ func (t Tok3nInstance) GetActiveSession(kind string) (string, error){
 }
 
 func (t Tok3nInstance) GetAccessUrl(callback, callbackdata string) (string,error){
-	session, err := t.getActiveSession("access")
+	session, err := t.GetActiveSession("access")
 	if err!= nil{
 		return "", err
 	}
