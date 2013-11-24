@@ -33,7 +33,7 @@ type Tok3nInstance struct {
 
 func (t Tok3nInstance) _getRemote(path string) (string,error ){
 	url := fmt.Sprintf("http://%s%s",t.Config.Domain,path)
-	res, err := Client.Get(url)
+	res, err := t.Client.Get(url)
 	if err != nil{
 		return "", err
 	}
