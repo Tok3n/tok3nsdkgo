@@ -1,4 +1,4 @@
-package tok3n
+package tok3nsdkgo
 
 import (
 	"net/http"
