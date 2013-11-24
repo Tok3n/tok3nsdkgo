@@ -4,4 +4,4 @@ import (
 	"net/http"
 )
 
-var client http.Client
+var client *http.Client
