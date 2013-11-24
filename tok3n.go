@@ -56,6 +56,6 @@ func (t Tok3nInstance) getAccessUrl(callback, callbackdata string) (string,error
 	if err!= nil{
 		return "", err
 	}
-	return fmt.Sprintf("/login.do?publicKey=%s&session=%s&callbackurl=%s&callbackdata=%s",r.Config.PublicKey,session,callback,callbackdata),nil
+	return fmt.Sprintf("/login.do?publicKey=%s&session=%s&callbackurl=%s&callbackdata=%s",t.Config.PublicKey,session,callback,callbackdata),nil
 
 }
