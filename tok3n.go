@@ -49,13 +49,13 @@ func (t Tok3nInstance) _getRemote(path string) (string,error ){
 	return string(response),nil
 }
 
-func (t Tok3nInstance) getActiveSession(kind string) (string, error){
+func (t Tok3nInstance) GetActiveSession(kind string) (string, error){
 	url := fmt.Sprintf("/api/v1/getSession?kind=%s&secretKey=%s",kind,t.Config.SecretKey)
 	return t._getRemote(url)
 	//$url = $this->tok3nURL."/api/v1/getSession?kind=$kind&secretKey=".$this->tok3nSecretKey;
 }
 
-func (t Tok3nInstance) getAccessUrl(callback, callbackdata string) (string,error){
+func (t Tok3nInstance) GetAccessUrl(callback, callbackdata string) (string,error){
 	session, err := t.getActiveSession("access")
 	if err!= nil{
 		return "", err
