@@ -19,7 +19,7 @@ func GetTok3nConfigWithSecretPublic(s,p string)Tok3nConfig{
 	return conf
 }
 func GetTok3nConfigWithDomainSecretPublic(d,s,p string)Tok3nConfig{
-	conf := GetTok3nConfigWithSecretPublic(sp)
+	conf := GetTok3nConfigWithSecretPublic(s,p)
 	conf.Domain = d
 	return conf
 }
