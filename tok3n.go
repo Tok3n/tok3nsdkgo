@@ -31,8 +31,12 @@ type Tok3nInstance struct {
 	Config Tok3nConfig
 }
 
+func (t TokenInstance) _addDomain(path string)string{
+	return fmt.Sprintf("http://%s%s",t.Config.Domain,path)
+}
+
 func (t Tok3nInstance) _getRemote(path string) (string,error ){
-	url := fmt.Sprintf("http://%s%s",t.Config.Domain,path)
+	url := t._addDomain(path)
 	res, err := t.Client.Get(url)
 	if err != nil{
 		return "", err
@@ -56,6 +60,6 @@ func (t Tok3nInstance) getAccessUrl(callback, callbackdata string) (string,error
 	if err!= nil{
 		return "", err
 	}
-	return fmt.Sprintf("/login.do?publicKey=%s&session=%s&callbackurl=%s&callbackdata=%s",t.Config.PublicKey,session,callback,callbackdata),nil
+	return _addDomain(fmt.Sprintf("/login.do?publicKey=%s&session=%s&callbackurl=%s&callbackdata=%s",t.Config.PublicKey,session,callback,callbackdata)),nil
 
 }
