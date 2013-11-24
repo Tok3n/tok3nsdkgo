@@ -2,6 +2,8 @@ package tok3nsdkgo
 
 import (
 	"net/http"
+	"io/ioutil"
+	"fmt"
 )
 
 type Tok3nConfig struct{
@@ -29,3 +31,31 @@ type Tok3nInstance struct {
 	Config Tok3nConfig
 }
 
+func (t Tok3nInstance) _getRemote(path string) (string,error ){
+	url := fmt.Sprintf("http://%s%s",t.Config.Domain,path)
+	res, err := Client.Get(url)
+	if err != nil{
+		return nil, err
+	}
+	response, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+	return response,nil
+}
+
+func (t Tok3nInstance) getActiveSession(kind string) (string, error){
+	url := fmt.Sprintf("/api/v1/getSession?kind=%s&secretKey=%s",kind,t.Config.SecretKey)
+	return t._getRemote(url)
+	//$url = $this->tok3nURL."/api/v1/getSession?kind=$kind&secretKey=".$this->tok3nSecretKey;
+}
+
+func (t Tok3nInstance) getAccessUrl(callback, callbackdata string) (string,error){
+	session, err := t.getActiveSession("access")
+	if err!= nil{
+		return nil, err
+	}
+	return fmt.Sprintf("/login.do?publicKey=%s&session=%s&callbackurl=%s&callbackdata=%s",r.Config.PublicKey,session,callback,callbackdata),nil
+
+}
