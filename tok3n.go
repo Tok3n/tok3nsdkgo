@@ -35,14 +35,14 @@ func (t Tok3nInstance) _getRemote(path string) (string,error ){
 	url := fmt.Sprintf("http://%s%s",t.Config.Domain,path)
 	res, err := Client.Get(url)
 	if err != nil{
-		return nil, err
+		return "", err
 	}
 	response, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
-	return response,nil
+	return string(response),nil
 }
 
 func (t Tok3nInstance) getActiveSession(kind string) (string, error){
@@ -54,7 +54,7 @@ func (t Tok3nInstance) getActiveSession(kind string) (string, error){
 func (t Tok3nInstance) getAccessUrl(callback, callbackdata string) (string,error){
 	session, err := t.getActiveSession("access")
 	if err!= nil{
-		return nil, err
+		return "", err
 	}
 	return fmt.Sprintf("/login.do?publicKey=%s&session=%s&callbackurl=%s&callbackdata=%s",r.Config.PublicKey,session,callback,callbackdata),nil
 
