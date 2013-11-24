@@ -31,7 +31,7 @@ type Tok3nInstance struct {
 	Config Tok3nConfig
 }
 
-func (t TokenInstance) _addDomain(path string)string{
+func (t Tok3nInstance) _addDomain(path string)string{
 	return fmt.Sprintf("http://%s%s",t.Config.Domain,path)
 }
 
