@@ -95,6 +95,15 @@ func (t Tok3nInstance) GetJsClientUrl(action,userkey string) string {
 	u.RawQuery = q.Encode()
 	return u.String();
 }
+func (t Tok3nInstance) GetJsClientUrl__v1_5(action,userkey string) string {
+	u, _ := url.Parse(t._addDomain("/api/v1_5/client.js?"))
+	q := u.Query()
+	q.Set("publicKey", t.Config.PublicKey)
+	q.Set("actionName", action)
+	q.Set("userkey", userkey)
+	u.RawQuery = q.Encode()
+	return u.String();
+}
 
 func (t Tok3nInstance) ValidateOTP(userkey, otp, sesion string) (string,error) {
 	u, _ := url.Parse("/api/v1/otpValid?")
@@ -116,7 +125,35 @@ func (t Tok3nInstance) ValidateOTP(userkey, otp, sesion string) (string,error) {
 		return "", err
 	}
 	if responseStruct.Error != ""{
-		return "",errors.New("Error: with the channel")
+		return "",errors.New(fmt.Sprintf("Error: with the channel. ",responseStruct.Error))
+	}else{
+		return responseStruct.Result, nil
+	}
+
+
+}
+
+func (t Tok3nInstance) ValidateSqr(userkey, sqr, sesion string) (string,error) {
+	u, _ := url.Parse("/api/v1_5/sqrValid?")
+	q := u.Query()
+	q.Set("SecretKey", t.Config.SecretKey)
+	q.Set("sqr", sqr)
+	q.Set("UserKey", userkey)
+	q.Set("secion",sesion)
+	u.RawQuery = q.Encode()
+	u.String()
+	response,err := t._getRemote(u.String())
+	if err!= nil{
+		return "", err
+	}
+
+	var responseStruct Tok3n_OTP_Response
+	err = json.Unmarshal([]byte(response),&responseStruct)
+	if err!= nil{
+		return "", err
+	}
+	if responseStruct.Error != ""{
+		return "",errors.New(fmt.Sprintf("Error: with the channel. ",responseStruct.Error))
 	}else{
 		return responseStruct.Result, nil
 	}
